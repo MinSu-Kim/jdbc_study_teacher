@@ -90,6 +90,7 @@ public class EmployeeUI extends JFrame implements ActionListener {
 
 	protected void actionPerformedBtnAdd(ActionEvent e) {
 		Employee newEmp = pContent.getEmployee();
+		System.out.println(newEmp);
 		int res;
 		try {
 			res = dao.insertEmployee(newEmp);

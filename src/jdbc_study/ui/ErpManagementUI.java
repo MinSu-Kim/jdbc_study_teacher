@@ -16,7 +16,9 @@ import jdbc_study.dao.EmployeeDao;
 import jdbc_study.daoimpl.DepartmentDaoImpl;
 import jdbc_study.daoimpl.EmployeeDaoImpl;
 import jdbc_study.dto.Department;
+import jdbc_study.dto.Employee;
 import jdbc_study.ui.content.PanelDepartment;
+import jdbc_study.ui.content.PanelEmployee;
 
 @SuppressWarnings("serial")
 public class ErpManagementUI extends JFrame implements ActionListener {
@@ -204,6 +206,28 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 		}
 	}
 
+	public void showEmployeeUI(int empNo) {
+		Employee selEmp;
+		try {
+			selEmp = empDao.selectEmployeeByNo(new Employee(empNo));
+			if (selEmp == null) {
+				JOptionPane.showMessageDialog(null, "수정할 사원이 존재하지 않습니다.");
+				return;
+			}
+			if (frameEmployee == null) {
+				frameEmployee = new EmployeeUI();
+				frameEmployee.setParent(this);
+				frameEmployee.setDao(empDao);
+			}
+			frameEmployee.setEmployee(selEmp);
+			frameEmployee.setVisible(true);
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
 	protected void actionPerformedBtnSearch(ActionEvent e) {
 		String deptNo = JOptionPane.showInputDialog("검색할 부서번호를 입력하세요");
 		Department selDept;
@@ -238,17 +262,42 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 		frameDepartmentList.setVisible(true);
 	}
 
-	public void refreshUI() {
+	public void refreshUI() throws SQLException {
 		if (frameDepartmentList != null && frameDepartmentList.isVisible()) {
 			frameDepartmentList.setDepartmentList(deptDao.selectDepartmentByAll());
 			frameDepartmentList.reloadData();
 		}
+		if (frameEmployeeList != null && frameEmployeeList.isVisible()) {
+			frameEmployeeList.setEmployeeList(empDao.selectEmployeeByAll());
+			frameEmployeeList.reloadData();
+		}
+		
 	}
+	
 	protected void actionPerformedBtnEmpAdd(ActionEvent e) {
 		showEmployeeUI();
 	}
+	
 	protected void actionPerformedBtnEmpSearch(ActionEvent e) {
+		String empNo = JOptionPane.showInputDialog("검색할 사원번호를 입력하세요");
+		Employee selEmp;
+		try {
+			selEmp = empDao.selectEmployeeByNo(new Employee(Integer.parseInt(empNo)));
+			if (selEmp == null) {
+				JOptionPane.showMessageDialog(null, "해당 사원이 존재하지 않습니다.");
+				return;
+			}
+			PanelEmployee pEmp = new PanelEmployee();
+			pEmp.setEmployee(selEmp);
+			pEmp.setTfAllEditable(false);
+			JOptionPane.showMessageDialog(null, pEmp, "사원 정보", JOptionPane.INFORMATION_MESSAGE);
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
+	
 	protected void actionPerformedBtnEmpList(ActionEvent e) {
 		if (frameEmployeeList == null) {
 			frameEmployeeList = new EmployeeListUI();
@@ -264,7 +313,21 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 		
 	}
 	protected void actionPerformedBtnEmpDelete(ActionEvent e) {
+		String empNo = JOptionPane.showInputDialog("삭제할 사원번호를 입력하세요");
+
+		try {
+			int res = empDao.deleteEmployee(new Employee(Integer.parseInt(empNo)));
+			if (res != -1)
+				JOptionPane.showMessageDialog(null, "삭제되었습니다.");
+			refreshUI();
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 	protected void actionPerformedBtnEmpUpdate(ActionEvent e) {
+		String empNo = JOptionPane.showInputDialog("수정할 사원번호를 입력하세요");
+		showEmployeeUI(Integer.parseInt(empNo));
 	}
 }
