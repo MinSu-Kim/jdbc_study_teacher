@@ -118,4 +118,8 @@ public class EmployeeUI extends JFrame implements ActionListener {
 	public void setParent(ErpManagementUI erpManagementUI) {
 		this.erpManagementUI = erpManagementUI;
 	}
+	
+	public void clearEmployee() {
+		pContent.clearTextField();
+	}
 }

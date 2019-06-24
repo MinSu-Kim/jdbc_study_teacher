@@ -1,6 +1,5 @@
 package jdbc_study.ui.content;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -76,7 +75,6 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		lblImg = new JLabel();
 		panel.add(lblImg);
 		lblImg.setSize(imgWidth, imgHeight);
-		lblImg.setPreferredSize(new Dimension(60, 80));
 
 		btnImgAdd = new JButton("사진 추가");
 		btnImgAdd.addActionListener(this);
@@ -160,7 +158,7 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		}else {
 			switchImage(imgPath + "noImg.jpg");
 		}
-		
+		btnImgAdd.setText("변경");
 	}
 
 	public Employee getEmployee() {
@@ -195,7 +193,6 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		tfManager.setEditable(isEditable);
 		tfSalary.setEditable(isEditable);
 		tfDept.setEditable(isEditable);
-//		lblImg.setEnabled(isEditable);
 		btnImgAdd.setVisible(false);
 	}
 

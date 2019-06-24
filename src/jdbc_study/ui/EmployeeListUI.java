@@ -6,7 +6,10 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -15,12 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import jdbc_study.dto.Department;
 import jdbc_study.dto.Employee;
-
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 
 @SuppressWarnings("serial")
 public class EmployeeListUI extends JFrame implements ActionListener{
@@ -43,11 +41,11 @@ public class EmployeeListUI extends JFrame implements ActionListener{
 	}
 
 	private void initComponents() {
-		setTitle("부서 목록");
+		setTitle("사원 목록");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
-		contentPane.setBorder(new TitledBorder(null, "부서 목록", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		contentPane.setBorder(new TitledBorder(null, "사원 목록", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
@@ -118,15 +116,15 @@ public class EmployeeListUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		int i = table.getSelectedRow();
 		if (table.getModel().getRowCount() == 0) {	// 부서정보가 존재하지 않을 경우
-//			parent.showDepartmentUI();
+			parent.showEmployeeUI();
 			return;
 		}
 		if (i  < 0 || i > table.getModel().getRowCount()-1) { //선택하지 않은 경우
 			JOptionPane.showMessageDialog(null, "선택된 사원 없습니다.");
 			return;
 		}
-//		int deptNo = (int) table.getModel().getValueAt(i, 0);
-//		parent.showDepartmentUI(deptNo);
+		int empNo = (int) table.getModel().getValueAt(i, 0);
+		parent.showEmployeeUI(empNo);
 	}
 
 	public void setErpManagementUI(ErpManagementUI erpManagementUI) {
