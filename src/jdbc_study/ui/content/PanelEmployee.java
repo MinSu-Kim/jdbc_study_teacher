@@ -146,8 +146,6 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		tfManager.setText(emp.getManager().getEmpNo() + "");
 		tfSalary.setText(emp.getSalary() + "");
 		tfDept.setText(emp.getDno().getDeptNo() + "");
-		// 이미지 나중에
-//		lblImg;
 		if (emp.getPic() != null) {
 			try {
 				File imgFile = getPicFile(emp);
@@ -180,6 +178,13 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		tfSalary.setText("");
 		tfDept.setText("");
 		switchImage(imgPath + "noImg.jpg");
+		if (!tfEmpNo.isEditable()) {
+			tfEmpNo.setEditable(true);
+		}
+		if (btnImgAdd.getText().equals("변경")) {
+			btnImgAdd.setText("사진 추가");
+		}
+		
 	}
 
 	public JTextField getTfEmpNo() {
