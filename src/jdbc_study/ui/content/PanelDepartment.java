@@ -69,7 +69,6 @@ public class PanelDepartment extends JPanel {
 		if (!tfDeptNo.isEditable()) {
 			tfDeptNo.setEditable(true);
 		}
-
 	}
 	
 	public JTextField getTfDeptNo() {
@@ -80,8 +79,6 @@ public class PanelDepartment extends JPanel {
 		tfDeptNo.setEditable(isEditable);
 		tfDeptName.setEditable(isEditable);
 		tfFloor.setEditable(isEditable);
-		
-		
 	}
 
 }

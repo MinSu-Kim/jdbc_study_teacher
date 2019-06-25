@@ -4,6 +4,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -140,11 +142,11 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			actionPerformedBtnUpdate(e);
 		}
 		if (e.getSource() == btnDeptDelete) {
-			actionPerformedBtnDelete(e);
+			actionPerformedBtnDelete();
 		}
 	}
 
-	protected void actionPerformedBtnDelete(ActionEvent e) {
+	public void actionPerformedBtnDelete() {
 		String deptNo = JOptionPane.showInputDialog("삭제할 부서번호를 입력하세요");
 
 		try {
@@ -187,6 +189,15 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 		frameEmployee.clearEmployee();
 		
 		frameEmployee.setVisible(true);
+	}
+	public void showDepartmentUI(Department selectedDept) {
+		if (frameDepartment == null) {
+			frameDepartment = new DepartmentUI();
+			frameDepartment.setParent(this);
+			frameDepartment.setDao(deptDao);
+		}
+		frameDepartment.setDepartment(selectedDept);
+		frameDepartment.setVisible(true);
 	}
 	
 	public void showDepartmentUI(int deptNo) {
@@ -309,7 +320,11 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			frameEmployeeList.setErpManagementUI(this);
 		}
 		try {
-			frameEmployeeList.setEmployeeList(empDao.selectEmployeeByAll());
+			List<Employee> selList = empDao.selectEmployeeByAll();
+			if (selList == null) {
+				selList = new ArrayList<>();
+			}
+			frameEmployeeList.setEmployeeList(selList);
 			frameEmployeeList.reloadData();
 			frameEmployeeList.setVisible(true);
 		} catch (SQLException e1) {
