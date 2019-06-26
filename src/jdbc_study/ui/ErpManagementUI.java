@@ -203,7 +203,6 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			frameDepartment = new DepartmentUI();
 			frameDepartment.setParent(this);
 			frameDepartment.setDao(deptDao);
-			frameEmployee.setDepDao(deptDao);
 		}
 		frameDepartment.setDepartment(selectedDept);
 		frameDepartment.setVisible(true);
@@ -221,6 +220,7 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 				frameEmployee = new EmployeeUI();
 				frameEmployee.setParent(this);
 				frameEmployee.setEmpDao(empDao);
+				frameEmployee.setDepDao(deptDao);
 			}
 			frameEmployee.setEmployee(selEmp);
 			frameEmployee.setVisible(true);
@@ -292,6 +292,7 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			}
 			PanelEmployee pEmp = new PanelEmployee();
 			pEmp.setEmployee(selEmp);
+			pEmp.setCmbModel(deptDao.selectDepartmentByAll());
 			pEmp.setTfAllEditable(false);
 			JOptionPane.showMessageDialog(null, pEmp, "사원 정보", JOptionPane.INFORMATION_MESSAGE);
 		} catch (NumberFormatException e1) {

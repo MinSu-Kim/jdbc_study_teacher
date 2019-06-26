@@ -150,7 +150,7 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		tfManager.setText(emp.getManager().getEmpNo() + "");
 		tfSalary.setText(emp.getSalary() + "");
 //		cmbDept.setText(emp.getDno().getDeptNo() + "");
-		cmbDept.setSelectedItem(emp);
+		cmbDept.setSelectedItem(emp.getDno());
 		if (emp.getPic() != null) {
 			try {
 				File imgFile = getPicFile(emp);
@@ -202,7 +202,7 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		tfTitle.setEditable(isEditable);
 		tfManager.setEditable(isEditable);
 		tfSalary.setEditable(isEditable);
-		cmbDept.setEditable(isEditable);
+		cmbDept.setEnabled(isEditable);
 		btnImgAdd.setVisible(false);
 	}
 
@@ -257,7 +257,9 @@ public class PanelEmployee extends JPanel implements ActionListener {
 
 	
 	public void setCmbModel(List<Department> deptList) {
-		deptCmbModel = new DefaultComboBoxModel<Department>(new Vector<Department>(deptList));
+		deptCmbModel = new DefaultComboBoxModel<Department>(
+										new Vector<Department>(deptList)
+									);
 		cmbDept.setModel(deptCmbModel);
 	}
 
