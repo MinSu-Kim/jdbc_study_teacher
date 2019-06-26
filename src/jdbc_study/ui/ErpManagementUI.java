@@ -122,7 +122,9 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			}
 		}
 		if (e.getSource() == btnEmpDelete) {
-			actionPerformedBtnEmpDelete();
+			String delEmpNo = JOptionPane.showInputDialog("삭제할 사원번호를 입력하세요");
+			if (delEmpNo == null) return;
+			actionPerformedBtnEmpDelete(Integer.parseInt(delEmpNo));
 		}
 		if (e.getSource() == btnEmpList) {
 			actionPerformedBtnEmpList(e);
@@ -146,19 +148,15 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			actionPerformedBtnUpdate(e);
 		}
 		if (e.getSource() == btnDeptDelete) {
-			actionPerformedBtnDelete();
+			String deptNo = JOptionPane.showInputDialog("삭제할 부서번호를 입력하세요");
+			if (deptNo == null) return;
+			actionPerformedBtnDelete(Integer.parseInt(deptNo));
 		}
 	}
 
-	public void actionPerformedBtnDelete() {
-		String deptNo = JOptionPane.showInputDialog("삭제할 부서번호를 입력하세요");
-		if (deptNo == null) return;
+	public void actionPerformedBtnEmpDelete(int empNo) {
 		try {
-			int res = deptDao.deleteDepartment(new Department(Integer.parseInt(deptNo)));
-			if (frameDepartment == null) {
-				frameDepartment = new DepartmentUI();
-				frameDepartment.setDao(deptDao);
-			}
+			int res = empDao.deleteEmployee(new Employee(empNo));
 			if (res != -1)
 				JOptionPane.showMessageDialog(null, "삭제되었습니다.");
 			refreshUI();
@@ -168,7 +166,20 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			e1.printStackTrace();
 		}
 	}
-
+	
+	public void actionPerformedBtnDelete(int deptNo) {
+		try {
+			int res = deptDao.deleteDepartment(new Department(deptNo));
+			if (res != -1)
+				JOptionPane.showMessageDialog(null, "삭제되었습니다.");
+			refreshUI();
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
 	protected void actionPerformedBtnUpdate(ActionEvent e) {
 		List<Department> deptList = deptDao.selectDepartmentByAll();
 		Department[] dList = new Department[deptList.size()];
@@ -341,22 +352,6 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			e1.printStackTrace();
 		}
 		
-	}
-	
-	public void actionPerformedBtnEmpDelete() {
-		String empNo = JOptionPane.showInputDialog("삭제할 사원번호를 입력하세요");
-		if (empNo == null) return;
-
-		try {
-			int res = empDao.deleteEmployee(new Employee(Integer.parseInt(empNo)));
-			if (res != -1)
-				JOptionPane.showMessageDialog(null, "삭제되었습니다.");
-			refreshUI();
-		} catch (NumberFormatException e1) {
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
 	}
 
 }

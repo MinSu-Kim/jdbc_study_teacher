@@ -129,7 +129,17 @@ public class EmployeeListUI extends JFrame implements ActionListener{
 			parent.showEmployeeUI(empNo);
 		}
 		if (e.getSource() == mntmPopDelete) {
-			parent.actionPerformedBtnDelete();
+			int i = table.getSelectedRow();
+			if (table.getModel().getRowCount() == 0) {	// 부서정보가 존재하지 않을 경우
+				parent.showEmployeeUI();
+				return;
+			}
+			if (i  < 0 || i > table.getModel().getRowCount()-1) { //선택하지 않은 경우
+				JOptionPane.showMessageDialog(null, "선택된 사원 없습니다.");
+				return;
+			}
+			int empNo = (int) table.getModel().getValueAt(i, 0);
+			parent.actionPerformedBtnEmpDelete(empNo);
 		}
 	}
 

@@ -118,8 +118,25 @@ public class DepartmentListUI extends JFrame implements ActionListener {
 			updateUI();
 		}
 		if (e.getSource() == mntmPopDelete) {
-			parent.actionPerformedBtnDelete();
+			deleteUI();
 		}
+	}
+
+	private void deleteUI() {
+		int i = table.getSelectedRow();
+
+		if (table.getModel().getRowCount() == 0) { // 부서정보가 존재하지 않을 경우
+			parent.showDepartmentUI();
+			return;
+		}
+		if (i < 0 || i > table.getModel().getRowCount() - 1) { // 선택하지 않은 경우
+			JOptionPane.showMessageDialog(null, "선택된 부서가 없습니다.");
+			return;
+		}
+
+		int deptNo = (int) table.getModel().getValueAt(i, 0);
+
+		parent.actionPerformedBtnDelete(deptNo);
 	}
 
 	private void updateUI() {
