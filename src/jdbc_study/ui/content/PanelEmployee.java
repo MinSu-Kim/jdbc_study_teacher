@@ -156,6 +156,7 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		if (emp.getPic() != null) {
 			try {
 				File imgFile = getPicFile(emp);
+				selectedImpPath = imgFile.getAbsolutePath();
 				switchImage(imgFile.getAbsolutePath());
 			} catch (IOException e) {
 				e.printStackTrace();
