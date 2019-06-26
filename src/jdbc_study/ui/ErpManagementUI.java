@@ -190,7 +190,8 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 		if (frameEmployee == null) {
 			frameEmployee = new EmployeeUI();
 			frameEmployee.setParent(ErpManagementUI.this);
-			frameEmployee.setDao(empDao);
+			frameEmployee.setEmpDao(empDao);
+			frameEmployee.setDepDao(deptDao);
 		}
 		frameEmployee.clearEmployee();
 		
@@ -202,6 +203,7 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			frameDepartment = new DepartmentUI();
 			frameDepartment.setParent(this);
 			frameDepartment.setDao(deptDao);
+			frameEmployee.setDepDao(deptDao);
 		}
 		frameDepartment.setDepartment(selectedDept);
 		frameDepartment.setVisible(true);
@@ -218,7 +220,7 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			if (frameEmployee == null) {
 				frameEmployee = new EmployeeUI();
 				frameEmployee.setParent(this);
-				frameEmployee.setDao(empDao);
+				frameEmployee.setEmpDao(empDao);
 			}
 			frameEmployee.setEmployee(selEmp);
 			frameEmployee.setVisible(true);
