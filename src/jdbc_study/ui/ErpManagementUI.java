@@ -115,10 +115,14 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnEmpUpdate) {
-			actionPerformedBtnEmpUpdate(e);
+			try {
+				actionPerformedBtnEmpUpdate(e);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 		if (e.getSource() == btnEmpDelete) {
-			actionPerformedBtnEmpDelete(e);
+			actionPerformedBtnEmpDelete();
 		}
 		if (e.getSource() == btnEmpList) {
 			actionPerformedBtnEmpList(e);
@@ -148,7 +152,7 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 
 	public void actionPerformedBtnDelete() {
 		String deptNo = JOptionPane.showInputDialog("삭제할 부서번호를 입력하세요");
-
+		if (deptNo == null) return;
 		try {
 			int res = deptDao.deleteDepartment(new Department(Integer.parseInt(deptNo)));
 			if (frameDepartment == null) {
@@ -176,6 +180,18 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 		}
 	}
 
+	protected void actionPerformedBtnEmpUpdate(ActionEvent e) throws SQLException {
+		List<Employee> empList = empDao.selectEmployeeByAll();
+		Employee[] eList = new Employee[empList.size()];
+		empList.toArray(eList);
+		
+		Employee selEmp = (Employee) JOptionPane.showInputDialog(null, "수정할 사원번호를 입력하세요", 
+				"사원 수정", JOptionPane.QUESTION_MESSAGE, null, eList, eList[0]);
+		if (selEmp == null) return;
+		showEmployeeUI(selEmp.getEmpNo());
+	}
+	
+	
 	public void showDepartmentUI() {
 		if (frameDepartment == null) {
 			frameDepartment = new DepartmentUI();
@@ -233,6 +249,9 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 	
 	protected void actionPerformedBtnSearch(ActionEvent e) {
 		String deptNo = JOptionPane.showInputDialog("검색할 부서번호를 입력하세요");
+		if (deptNo == null) {
+			return;
+		}
 		Department selDept;
 		try {
 			selDept = deptDao.selectDepartmentByNo(new Department(Integer.parseInt(deptNo)));
@@ -283,6 +302,9 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 	
 	protected void actionPerformedBtnEmpSearch(ActionEvent e) {
 		String empNo = JOptionPane.showInputDialog("검색할 사원번호를 입력하세요");
+		if (empNo == null) {
+			return;
+		}
 		Employee selEmp;
 		try {
 			selEmp = empDao.selectEmployeeByNo(new Employee(Integer.parseInt(empNo)));
@@ -320,8 +342,10 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 		}
 		
 	}
-	protected void actionPerformedBtnEmpDelete(ActionEvent e) {
+	
+	public void actionPerformedBtnEmpDelete() {
 		String empNo = JOptionPane.showInputDialog("삭제할 사원번호를 입력하세요");
+		if (empNo == null) return;
 
 		try {
 			int res = empDao.deleteEmployee(new Employee(Integer.parseInt(empNo)));
@@ -334,8 +358,5 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			e1.printStackTrace();
 		}
 	}
-	protected void actionPerformedBtnEmpUpdate(ActionEvent e) {
-		String empNo = JOptionPane.showInputDialog("수정할 사원번호를 입력하세요");
-		showEmployeeUI(Integer.parseInt(empNo));
-	}
+
 }

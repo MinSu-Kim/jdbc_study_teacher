@@ -112,8 +112,7 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		return String.format("[%s, %s, %s, %s, %s, %s]", empNo, empName, title, manager.getEmpNo(), salary,
-				dno.getDeptNo());
+		return String.format("%s(%s)", empName, empNo);
 	}
 
 	public Object[] toArray() {

@@ -62,6 +62,7 @@ public class EmployeeListUI extends JFrame implements ActionListener{
 		popupMenu.add(mntmPopUpdate);
 		
 		mntmPopDelete = new JMenuItem("삭제");
+		mntmPopDelete.addActionListener(this);
 		popupMenu.add(mntmPopDelete);
 		
 		table.setComponentPopupMenu(popupMenu);
@@ -114,17 +115,22 @@ public class EmployeeListUI extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int i = table.getSelectedRow();
-		if (table.getModel().getRowCount() == 0) {	// 부서정보가 존재하지 않을 경우
-			parent.showEmployeeUI();
-			return;
+		if (e.getSource() == mntmPopUpdate) {
+			int i = table.getSelectedRow();
+			if (table.getModel().getRowCount() == 0) {	// 부서정보가 존재하지 않을 경우
+				parent.showEmployeeUI();
+				return;
+			}
+			if (i  < 0 || i > table.getModel().getRowCount()-1) { //선택하지 않은 경우
+				JOptionPane.showMessageDialog(null, "선택된 사원 없습니다.");
+				return;
+			}
+			int empNo = (int) table.getModel().getValueAt(i, 0);
+			parent.showEmployeeUI(empNo);
 		}
-		if (i  < 0 || i > table.getModel().getRowCount()-1) { //선택하지 않은 경우
-			JOptionPane.showMessageDialog(null, "선택된 사원 없습니다.");
-			return;
+		if (e.getSource() == mntmPopDelete) {
+			parent.actionPerformedBtnDelete();
 		}
-		int empNo = (int) table.getModel().getValueAt(i, 0);
-		parent.showEmployeeUI(empNo);
 	}
 
 	public void setErpManagementUI(ErpManagementUI erpManagementUI) {
