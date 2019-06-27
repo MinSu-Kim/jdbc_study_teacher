@@ -118,4 +118,24 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	}
 
+	@Override
+	public List<Employee> selectEmployeeByDno(int dno) throws SQLException {
+		String sql = "SELECT empno, empname, title, manager, salary, dno, pic FROM employee where dno=?";
+		List<Employee> lists = null;
+		try(Connection conn = MySQLjdbcUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);){
+			pstmt.setInt(1, dno);
+			log.trace(pstmt);
+			try(ResultSet rs = pstmt.executeQuery()){
+				if (rs.next()) {
+					lists = new ArrayList<Employee>();
+					do {
+						lists.add(getEmployee(rs));
+					}while(rs.next());
+				}
+			}
+		}
+		return lists;
+	}
+
 }

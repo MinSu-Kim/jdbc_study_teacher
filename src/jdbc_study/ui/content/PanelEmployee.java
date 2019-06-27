@@ -35,8 +35,11 @@ public class PanelEmployee extends JPanel implements ActionListener {
 	private JTextField tfEmpNo;
 	private JTextField tfEmpName;
 	private JTextField tfTitle;
-	private JTextField tfManager;
 	private JTextField tfSalary;
+	
+	private JComboBox<Employee> cmbManager;
+	private DefaultComboBoxModel<Employee> empCmbModel;
+	
 	private JComboBox<Department> cmbDept;
 	private DefaultComboBoxModel<Department> deptCmbModel;
 	private JLabel lblImg;
@@ -125,9 +128,8 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		pEmp.add(lblManager);
 		lblManager.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		tfManager = new JTextField();
-		pEmp.add(tfManager);
-		tfManager.setColumns(10);
+		cmbManager = new JComboBox<Employee>();
+		pEmp.add(cmbManager);
 
 		JLabel lblSalary = new JLabel("급여");
 		pEmp.add(lblSalary);
@@ -149,9 +151,8 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		tfEmpNo.setText(emp.getEmpNo() + "");
 		tfEmpName.setText(emp.getEmpName());
 		tfTitle.setText(emp.getTitle());
-		tfManager.setText(emp.getManager().getEmpNo() + "");
+		cmbManager.setSelectedItem(emp.getManager());
 		tfSalary.setText(emp.getSalary() + "");
-//		cmbDept.setText(emp.getDno().getDeptNo() + "");
 		cmbDept.setSelectedItem(emp.getDno());
 		if (emp.getPic() != null) {
 			try {
@@ -172,7 +173,7 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		String empName = tfEmpName.getText().trim();
 		String title = tfTitle.getText().trim();
 		int salary = Integer.parseInt(tfSalary.getText().trim());
-		Employee manager = new Employee(Integer.parseInt(tfManager.getText().trim()));
+		Employee manager = (Employee) cmbManager.getSelectedItem();
 		Department dno = (Department) cmbDept.getSelectedItem();
 
 		return new Employee(empNo, empName, title, manager, salary, dno, getImage());
@@ -182,7 +183,7 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		tfEmpNo.setText("");
 		tfEmpName.setText("");
 		tfTitle.setText("");
-		tfManager.setText("");
+		cmbManager.setSelectedIndex(-1);
 		tfSalary.setText("");
 		cmbDept.setSelectedIndex(-1);
 		switchImage(imgPath + "noImg.jpg");
@@ -203,7 +204,7 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		tfEmpNo.setEditable(isEditable);
 		tfEmpName.setEditable(isEditable);
 		tfTitle.setEditable(isEditable);
-		tfManager.setEditable(isEditable);
+		cmbManager.setEnabled(isEditable);
 		tfSalary.setEditable(isEditable);
 		cmbDept.setEnabled(isEditable);
 		btnImgAdd.setVisible(false);
@@ -270,4 +271,15 @@ public class PanelEmployee extends JPanel implements ActionListener {
 		return cmbDept;
 	}
 	
+	public void setCmbManagerModel(List<Employee> deptList) {
+		cmbManager.removeAllItems();
+		empCmbModel = new DefaultComboBoxModel<Employee>(
+										new Vector<Employee>(deptList)
+									);
+		cmbManager.setModel(empCmbModel);
+	}
+
+	public JComboBox<Employee> getCmbManager() {
+		return cmbManager;
+	}
 }

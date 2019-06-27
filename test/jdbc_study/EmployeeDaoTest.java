@@ -124,6 +124,18 @@ public class EmployeeDaoTest {
 		Assert.assertEquals(1, res);
 	}
 	
+	@Test
+	public void test06SelectEmployeeByDno() throws SQLException {
+		log.trace("test06SelectEmployeeByDno()");
+		int dno = 2;
+		List<Employee> empList = dao.selectEmployeeByDno(dno);
+		Assert.assertNotNull(empList);
+		
+		for(Employee e : empList) {
+			log.trace(e);
+		}
+	}
+	
 	private byte[] getImage(String fileName) {
 		byte[] pic = null;
 

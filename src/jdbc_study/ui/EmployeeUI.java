@@ -137,7 +137,11 @@ public class EmployeeUI extends JFrame implements ActionListener, ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			Department dept = (Department) e.getItem();
-			JOptionPane.showMessageDialog(null, dept);
+			try {
+				this.pContent.setCmbManagerModel(empDao.selectEmployeeByDno(dept.getDeptNo()));
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 }
