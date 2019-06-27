@@ -283,8 +283,8 @@ public class ErpManagementUI extends JFrame implements ActionListener {
 			return;
 		}
 		PanelEmployee pEmp = new PanelEmployee();
-		pEmp.setEmployee(selEmp);
 		pEmp.setCmbModel(deptDao.selectDepartmentByAll());
+		pEmp.setEmployee(selEmp);
 		pEmp.setTfAllEditable(false);
 		JOptionPane.showMessageDialog(null, pEmp, "사원 정보", JOptionPane.INFORMATION_MESSAGE);
 	}
