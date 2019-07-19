@@ -72,6 +72,7 @@ public class DepartmentUI extends JFrame implements ActionListener {
 			}
 		}
 	}
+	
 	private void actionPerformedBtnUpdate(ActionEvent e) {
 		Department newDept = pContent.getDepartment();
 		int res;
